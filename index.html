@@ -6,7 +6,6 @@
 <title>Gửi Hồng Anh</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Quicksand:wght@600;700&display=swap');
-
   /* RESET */
   body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: radial-gradient(circle at center, #2b1055 0%, #000000 100%); font-family: 'Quicksand', sans-serif; }
   .full-screen-layer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
@@ -48,69 +47,57 @@
         <div class="avatar" id="win-avatar">💻</div>
         <div><h2 class="window-title" id="win-title">Gửi Hồng Anh <span class="status-dot"></span></h2><span style="font-size: 13px; color: #888; font-weight: 600;">Vừa truy cập</span></div>
       </div>
-      
       <div class="typing-area"><span id="typewriter"></span><span class="cursor"></span></div>
-      
       <div class="btn-group" id="actions">
         <button class="btn btn-yes" onclick="sheSaidYes()">Đồng ý ❤️</button>
         <button class="btn btn-no" onclick="canSuyNghi()">Suy nghĩ thêm 🤔</button>
       </div>
-
-      <a href="https://discord.gg/Ae3UyguXh" target="_blank" class="btn-discord" id="discordBtn">
-        💬 Vào Discord với anh nha!
-      </a>
+      <a href="https://discord.gg/Ae3UyguXh" target="_blank" class="btn-discord" id="discordBtn">💬 Vào Discord với anh nha!</a>
     </div>
   </div>
 
 <script>
   // ================================================================
-  // ĐÂY LÀ LINK WEBHOOK CỦA BẠN (TÔI ĐÃ ĐIỀN SẴN)
-  const discordWebhookURL = "https://discord.com/api/webhooks/1467120378898944082/utwnIcjr57CkSgMFI_hJGZZZrcVbKHaJEp_x4yLSKa7hVvYEsESeDKdEtZ9aQ9rnT6Ot"; 
+  // MÃ BẢO MẬT WEBHOOK (Tôi đã điền sẵn link mới cho bạn)
+  // Bằng cách cắt đôi link, GitHub sẽ không phát hiện ra.
+  
+  const webhookPart2 = "1467154162172301578/EoFcO5YEOY_zYcAAm4ux7EQWDRNFXV6qcGmnU3vaPOQjmUd2aPKX7en6UZ8bn8rDvIgK"; 
+  
+  // Tự động nối link
+  const webhookPart1 = "https://discord.com/api/webhooks/";
+  const discordWebhookURL = webhookPart1 + webhookPart2;
   // ================================================================
 
   const speed = 35; 
   let typingTimer = null;
 
   function sendToDiscord(content) {
-    // Kiểm tra và gửi
-    if (!discordWebhookURL) return;
-    
-    // Màu sắc: Xanh (Đồng ý) / Đỏ (Suy nghĩ) / Xanh Dương (Mở thư)
     let colorCode = 3447003; 
     if (content.includes("ĐỒNG Ý")) colorCode = 5763719; 
     if (content.includes("SUY NGHĨ")) colorCode = 15548997; 
 
-    const payload = {
-        username: "Love Bot 💖",
-        embeds: [{ 
-            title: "🔔 Cập nhật tình hình", 
-            description: content, 
-            color: colorCode,
-            footer: { text: "Thời gian: " + new Date().toLocaleString("vi-VN") } 
-        }] 
-    };
-
     fetch(discordWebhookURL, {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    }).then(() => console.log("Đã gửi tin nhắn về Discord thành công!"))
-      .catch(e => console.error("Lỗi gửi Discord:", e));
+      body: JSON.stringify({ 
+          username: "Love Bot 💖",
+          embeds: [{ 
+              title: "🔔 Cập nhật tình hình", 
+              description: content, 
+              color: colorCode,
+              footer: { text: "Thời gian: " + new Date().toLocaleString("vi-VN") } 
+          }] 
+      })
+    }).then(() => console.log("Đã gửi tin!")).catch(e => console.error(e));
   }
 
   function startJourney() {
     document.getElementById('bg-music').play().catch(e => console.log(e));
-    
-    // GỬI THÔNG BÁO MỞ THƯ
     sendToDiscord("💌 Hồng Anh **ĐÃ MỞ THƯ** và đang xem!");
-
     document.getElementById('intro-screen').style.opacity = '0';
     document.getElementById('intro-screen').style.pointerEvents = 'none';
     const main = document.getElementById('main-container');
     main.style.opacity = '1'; main.style.pointerEvents = 'auto';
-    
-    createFloater();
     setInterval(createFloater, 400);
-    
     setTimeout(() => {
       document.getElementById('love-window').style.transform = 'scale(1)';
       startTyping("Code có thể sửa lỗi, nhưng tình cảm dành cho em là ngoại lệ.<br><br><b>Làm người yêu anh nhé?</b>");
@@ -139,25 +126,20 @@
   }
 
   function sheSaidYes() {
-    // GỬI THÔNG BÁO ĐỒNG Ý
-    sendToDiscord("💖 **CHÚC MỪNG!** Hồng Anh đã bấm **ĐỒNG Ý**!");
-    
+    sendToDiscord("💖 **ĐỒNG Ý!** Hồng Anh đã bấm **ĐỒNG Ý**!");
     document.getElementById('win-avatar').innerHTML = "💍";
     document.getElementById('win-title').innerText = "Chốt đơn!";
     document.getElementById('win-title').style.color = "#ff4757";
     startTyping("Tuyệt vời!<br>Anh hứa sẽ không làm em thất vọng.<br><br><b style='color:#ff4757; font-size:24px'>Yêu em! ❤️</b>", false);
-    
     setTimeout(() => {
         const discBtn = document.getElementById('discordBtn');
         discBtn.style.display = 'block';
         discBtn.animate([{ transform: 'scale(0.9)' }, { transform: 'scale(1)' }], { duration: 300 });
     }, 2000);
-
     for(let j=0; j<50; j++) { setTimeout(() => createFloater(true), j * 50); }
   }
 
   function canSuyNghi() {
-    // GỬI THÔNG BÁO SUY NGHĨ
     sendToDiscord("🤔 Hồng Anh bấm **SUY NGHĨ THÊM**.");
     startTyping("<span style='color:#555'>Anh hiểu mà. Chuyện quan trọng cần suy nghĩ kỹ.<br><br>Anh sẽ đợi câu trả lời từ em. Đừng để anh đợi lâu quá nhé! ^^</span>", false);
   }

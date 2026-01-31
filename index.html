@@ -3,101 +3,155 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Gửi Hồng Anh ❤️</title>
+<title>Gửi Hồng Anh</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Quicksand:wght@600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Quicksand:wght@600;700&display=swap');
 
-  /* CẤU HÌNH CƠ BẢN */
-  body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; font-family: 'Quicksand', sans-serif; }
+  /* RESET */
+  body, html {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden; 
+    /* CHUYỂN MÀU NỀN VÀO BODY ĐỂ KHÔNG CHE MẤT TIM */
+    background: radial-gradient(circle at center, #2b1055 0%, #000000 100%);
+    font-family: 'Quicksand', sans-serif;
+  }
 
-  /* LỚP PHỦ TOÀN MÀN HÌNH */
+  /* --- FULL SCREEN LAYERS --- */
   .full-screen-layer {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     width: 100%; height: 100%;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    transition: opacity 0.8s ease-in-out;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    /* Z-INDEX QUAN TRỌNG: Container chứa cửa sổ phải cao hơn tim bay */
+    z-index: 100; 
   }
 
-  /* MÀN HÌNH CHỜ (MÀU HỒNG) */
-  #intro-screen { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); z-index: 3000; }
-
-  /* MÀN HÌNH CHÍNH (VŨ TRỤ TÍM) */
-  #main-container {
-    background: radial-gradient(circle at center, #2b1055 0%, #000000 100%);
-    z-index: 1000;
-  }
-
-  /* CHỈNH SỬA CHO MÁY TÍNH */
+  /* --- PC TWEAK --- */
   @media (min-width: 768px) {
-    .full-screen-layer { justify-content: flex-start !important; padding-top: 15vh; }
+    .full-screen-layer {
+      justify-content: flex-start !important; 
+      padding-top: 15vh; 
+    }
   }
 
-  /* KHUNG CỬA SỔ */
-  #love-window {
-    position: relative; width: 85%; max-width: 380px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 25px; border-radius: 20px;
-    box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
-    text-align: center;
-    transform: scale(0); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.2);
-    z-index: 2000;
+  /* --- MÀN HÌNH CHỜ --- */
+  #intro-screen {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    z-index: 2000; transition: opacity 0.5s;
   }
-
-  /* AVATAR & CHỮ */
-  .avatar {
-    width: 80px; height: 80px; margin: 0 auto 15px;
-    border-radius: 50%; background: #ffdde1; border: 3px solid #ff6b6b;
-    display: flex; justify-content: center; align-items: center; font-size: 40px;
-    animation: bounce 2s infinite;
-  }
-  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   
-  .window-title { color: #d63031; font-family: 'Pacifico', cursive; font-size: 24px; margin-bottom: 10px; }
-  .window-msg { color: #555; font-size: 16px; line-height: 1.6; margin-bottom: 25px; min-height: 60px; }
-
-  /* CHỮ NỀN (I LOVE YOU) */
-  .bg-text {
-    position: absolute; top: 10%; width: 100%; text-align: center;
-    font-family: 'Dancing Script', cursive; font-size: 12vw;
-    color: rgba(255, 255, 255, 0.15); pointer-events: none;
-    z-index: 1001; 
+  /* Container chính giờ trong suốt để nhìn thấy tim bay ở body */
+  #main-container {
+    background: transparent; 
   }
-  @media (min-width: 768px) { .bg-text { top: 5%; font-size: 80px; } }
 
-  /* NÚT BẤM */
-  .btn-group { display: flex; justify-content: space-around; position: relative; width: 100%; height: 50px; }
+  /* --- CỬA SỔ CHÍNH --- */
+  #love-window {
+    position: relative;
+    width: 90%; max-width: 450px;
+    background: rgba(255, 255, 255, 0.99); /* Nền đục để che tim khi bay qua */
+    padding: 30px 25px;
+    border-radius: 25px;
+    box-shadow: 0 0 60px rgba(255, 105, 180, 0.6);
+    text-align: left; 
+    transform: scale(0);
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.2);
+    max-height: 85vh;
+    overflow-y: auto; scrollbar-width: none;
+    
+    /* Z-INDEX 500: Cao nhất, đè lên tim bay */
+    z-index: 500;
+  }
+  #love-window::-webkit-scrollbar { display: none; }
+
+  /* Avatar & Header */
+  .chat-header {
+    display: flex; align-items: center; margin-bottom: 25px;
+    border-bottom: 2px solid #f0f0f0; padding-bottom: 15px;
+  }
+  .avatar {
+    width: 55px; height: 55px;
+    border-radius: 50%; background: #ffdde1;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 28px; border: 3px solid #ff4757; margin-right: 15px;
+  }
+  .window-title { 
+    color: #222; font-family: 'Montserrat', sans-serif; 
+    font-size: 22px; margin: 0; font-weight: 800;
+  }
+  .status-dot {
+    height: 12px; width: 12px; background-color: #2ecc71;
+    border-radius: 50%; display: inline-block; margin-left: 5px; border: 2px solid #fff;
+  }
+
+  /* --- KHU VỰC GÕ CHỮ --- */
+  .typing-area {
+    font-family: 'Quicksand', sans-serif; 
+    font-size: 20px; font-weight: 600;
+    line-height: 1.6; color: #333;
+    min-height: 100px; margin-bottom: 30px;
+  }
+  .cursor {
+    display: inline-block; width: 3px; height: 24px;
+    background-color: #ff4757; margin-left: 3px;
+    animation: blink 0.8s infinite; vertical-align: sub;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* --- NÚT BẤM --- */
+  .btn-group {
+    display: flex; justify-content: center; gap: 12px;
+    margin-top: 20px; 
+    opacity: 0; pointer-events: none; 
+    transition: opacity 0.5s;
+  }
   .btn {
-    padding: 10px 25px; border: none; border-radius: 50px;
-    font-size: 16px; font-weight: bold; cursor: pointer; outline: none;
-    transition: transform 0.2s; -webkit-tap-highlight-color: transparent;
+    padding: 14px 24px; border: none; border-radius: 12px;
+    font-size: 17px; font-weight: 700; cursor: pointer;
+    flex: 1; white-space: nowrap;
+    user-select: none; -webkit-tap-highlight-color: transparent;
+    transition: transform 0.1s;
   }
-  .btn-yes { background: #ff4757; color: white; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); z-index: 10; }
-  .btn-yes:active { transform: scale(0.95); }
-  .btn-no { background: #dfe6e9; color: #636e72; position: absolute; right: 10px; }
+  .btn:active { transform: scale(0.95); }
+  .btn-yes { background: #ff4757; color: white; box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4); }
+  .btn-no { background: #f1f2f6; color: #57606f; }
 
-  /* NÚT MỞ THƯ */
+  /* Intro Button */
   .intro-btn {
-    padding: 15px 40px; font-size: 22px; background: white; color: #ff6b6b;
-    border: none; border-radius: 50px; font-family: 'Pacifico', cursive;
-    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.5);
+    padding: 20px 40px; font-size: 22px; background: #fff; color: #ff6b6b;
+    border: none; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 800;
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
     animation: pulse 1.5s infinite; cursor: pointer;
+    z-index: 3000;
   }
-  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-  /* HIỆU ỨNG TIM BAY */
-  .floater {
-    position: absolute; bottom: -50px;
-    animation: floatUp linear forwards;
-    z-index: 9999;
-    pointer-events: none;
+  /* --- TIM BAY --- */
+  .floater { 
+    position: absolute; bottom: -100px; 
+    animation: floatUp linear forwards; 
+    
+    /* Z-INDEX 10: 
+       - Cao hơn background (0) -> Nhìn thấy được
+       - Thấp hơn Love Window (500) -> Bay ra sau lưng cửa sổ
+    */
+    z-index: 10; 
+    
+    pointer-events: none; 
   }
   @keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+  
+  /* Mobile Fix */
+  @media (max-width: 600px) {
+    #love-window { width: 88%; padding: 25px 20px; }
+    .typing-area { font-size: 19px; }
+  }
 </style>
 </head>
 <body>
 
   <audio id="bg-music" loop>
-    <source src="nhac.mp3" type="audio/mpeg">
+    <source src="nhac.mp3" type="audio/mp3">
   </audio>
 
   <div id="intro-screen" class="full-screen-layer">
@@ -105,107 +159,129 @@
   </div>
 
   <div id="main-container" class="full-screen-layer" style="opacity:0; pointer-events:none;">
-    <div class="bg-text">I Love You</div>
     
     <div id="love-window">
-      <div class="avatar">💖</div>
-      <h2 class="window-title">Hồng Anh à...</h2>
-      <p class="window-msg" id="msg"></p>
+      <div class="chat-header">
+        <div class="avatar" id="win-avatar">💻</div>
+        <div>
+          <h2 class="window-title" id="win-title">Gửi Hồng Anh <span class="status-dot"></span></h2>
+          <span style="font-size: 13px; color: #888; font-weight: 600;">Vừa truy cập</span>
+        </div>
+      </div>
       
-      <div class="btn-group">
-        <button class="btn btn-yes" onclick="sheSaidYes()">Đồng Ý ❤️</button>
-        <button class="btn btn-no" id="btnNo" onmouseover="moveButton()" ontouchstart="moveButton()">Không 🥺</button>
+      <div class="typing-area">
+        <span id="typewriter"></span><span class="cursor"></span>
+      </div>
+      
+      <div class="btn-group" id="actions">
+        <button class="btn btn-yes" onclick="sheSaidYes()">Đồng ý ❤️</button>
+        <button class="btn btn-no" onclick="canSuyNghi()">Suy nghĩ thêm 🤔</button>
       </div>
     </div>
   </div>
 
 <script>
-  // NỘI DUNG LỜI TỎ TÌNH
-  const message = "Thế giới này rộng lớn thế, nhưng anh chỉ muốn ở bên cạnh em thôi. Làm người yêu anh nhé?";
-  let i = 0;
+  const speed = 35; 
+  let typingTimer = null;
 
-  // HÀM BẮT ĐẦU (Khi bấm nút Mở thư)
   function startJourney() {
-    // 1. Bật nhạc
     const audio = document.getElementById('bg-music');
-    audio.volume = 1.0; 
+    audio.volume = 0.8; 
+    audio.play().catch(e => console.log(e));
+
+    document.getElementById('intro-screen').style.opacity = '0';
+    document.getElementById('intro-screen').style.pointerEvents = 'none';
     
-    var playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.then(_ => { console.log("Nhạc đang chạy ngon lành!"); })
-      .catch(error => { 
-        // Nếu không thấy nhạc thì báo lỗi nhẹ
-        alert("⚠️ Không tìm thấy file 'nhac.mp3'. Ông nhớ để file nhạc cùng chỗ với file web nhé!"); 
-      });
-    }
-
-    // 2. Ẩn màn hình chờ
-    const intro = document.getElementById('intro-screen');
-    intro.style.opacity = '0';
-    setTimeout(() => { intro.style.display = 'none'; }, 800);
-
-    // 3. Hiện màn hình chính
     const main = document.getElementById('main-container');
     main.style.opacity = '1';
     main.style.pointerEvents = 'auto';
-
-    // 4. Zoom cửa sổ lên và chạy chữ
+    
+    // Tạo tim bay ngay lập tức
+    createFloater();
+    setInterval(createFloater, 400);
+    
     setTimeout(() => {
       document.getElementById('love-window').style.transform = 'scale(1)';
-      typeWriter(); 
+      const msg = "Code có thể sửa lỗi, nhưng tình cảm dành cho em là ngoại lệ.<br><br><b>Làm người yêu anh nhé?</b>";
+      startTyping(msg);
     }, 600);
-
-    // 5. Thả tim bay
-    setInterval(createFloater, 400);
   }
 
-  // HIỆU ỨNG GÕ CHỮ
-  function typeWriter() {
-    if (i < message.length) {
-      document.getElementById("msg").innerHTML += message.charAt(i);
-      i++;
-      setTimeout(typeWriter, 50); 
+  function startTyping(text, showButtons = true) {
+    const typeElement = document.getElementById("typewriter");
+    const actionGroup = document.getElementById("actions");
+    const cursor = document.querySelector('.cursor');
+    
+    typeElement.innerHTML = "";
+    actionGroup.style.opacity = "0";
+    actionGroup.style.pointerEvents = "none";
+    cursor.style.display = "inline-block";
+    
+    let i = 0;
+    
+    function type() {
+      if (i < text.length) {
+        if (text.charAt(i) === '<') {
+          let tag = "";
+          while (text.charAt(i) !== '>' && i < text.length) {
+            tag += text.charAt(i);
+            i++;
+          }
+          tag += '>';
+          i++;
+          typeElement.innerHTML += tag;
+        } else {
+          typeElement.innerHTML += text.charAt(i);
+          i++;
+        }
+        typingTimer = setTimeout(type, speed);
+      } else {
+        if (showButtons) {
+          actionGroup.style.opacity = "1";
+          actionGroup.style.pointerEvents = "auto";
+        }
+        setTimeout(() => { cursor.style.display = 'none'; }, 2000);
+      }
+    }
+    type();
+  }
+
+  function sheSaidYes() {
+    document.getElementById('win-avatar').innerHTML = "💍";
+    document.getElementById('win-avatar').style.borderColor = "#ff4757";
+    document.getElementById('win-avatar').style.background = "#fff";
+    document.getElementById('win-title').innerText = "Chốt đơn!";
+    document.getElementById('win-title').style.color = "#ff4757";
+
+    const msg = "Tuyệt vời!<br>Anh hứa sẽ không làm em thất vọng.<br><br><b style='color:#ff4757; font-size:24px'>Yêu em! ❤️</b>";
+    startTyping(msg, false); 
+
+    for(let j=0; j<50; j++) { 
+        setTimeout(() => createFloater(true), j * 50); 
     }
   }
 
-  // NÚT KHÔNG CHẠY TRỐN
-  function moveButton() {
-    const btnNo = document.getElementById('btnNo');
-    const x = (Math.random() - 0.5) * 150; 
-    const y = (Math.random() - 0.5) * 100; 
-    btnNo.style.transform = `translate(${x}px, ${y}px)`;
+  function canSuyNghi() {
+    const msg = "<span style='color:#555'>Anh hiểu mà. Chuyện quan trọng cần suy nghĩ kỹ.<br><br>Anh sẽ đợi câu trả lời từ em. Đừng để anh đợi lâu quá nhé! ^^</span>";
+    startTyping(msg, false);
   }
 
-  // KHI ĐỒNG Ý
-  function sheSaidYes() {
-    const win = document.getElementById('love-window');
-    win.innerHTML = `
-      <div class="avatar" style="background:#fff; font-size:50px;">💍</div>
-      <h2 class="window-title" style="color:#e84393; font-size:28px;">Chốt đơn!</h2>
-      <p class="window-msg" style="font-weight:bold; font-size:18px;">
-        Anh hứa sẽ không làm em thất vọng.<br>Yêu em nhiều! ❤️
-      </p>
-    `;
-    const bg = document.querySelector('.bg-text');
-    bg.innerText = "MÃI YÊU EM";
-    bg.style.color = "rgba(255, 255, 255, 0.8)";
-    // Nổ tim tưng bừng
-    for(let k=0; k<30; k++) { setTimeout(() => createFloater(true), k*100); }
-  }
-
-  // TẠO TIM BAY
-  const loves = ["❤️", "💖", "💘", "💓", "💞"];
+  const loves = ["❤️", "💖", "Code", "Love", "💞", "🌹"];
   function createFloater(isExplosion = false) {
     const el = document.createElement('div');
     el.classList.add('floater');
     el.innerText = loves[Math.floor(Math.random() * loves.length)];
-    el.style.left = Math.random() * 95 + "vw"; 
-    el.style.fontSize = (Math.random() * 20 + 15) + "px"; 
-    const duration = isExplosion ? Math.random() * 2 + 2 : Math.random() * 5 + 4;
+    el.style.left = Math.random() * 95 + "vw";
+    el.style.fontSize = (Math.random() * 40 + 30) + "px"; 
+    el.style.color = Math.random() > 0.5 ? "#ff7675" : "#fff";
+    
+    const duration = isExplosion ? Math.random() * 2 + 1 : Math.random() * 4 + 3;
     el.style.animationDuration = duration + "s";
-    document.body.appendChild(el); 
+    
+    document.body.appendChild(el);
     setTimeout(() => { el.remove(); }, duration * 1000);
   }
 </script>
+
 </body>
 </html>

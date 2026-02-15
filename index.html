@@ -8,42 +8,60 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Gửi Hồng Anh ❤️" />
 <meta property="og:description" content="Có một bất ngờ nhỏ dành cho em. Mở ra xem nhé!" />
-<meta property="og:image" content="https://minhthuan12062011-lab.github.io/bimat/thumbnail.jpg" />
-<meta property="og:image:secure_url" content="https://minhthuan12062011-lab.github.io/bimat/thumbnail.jpg" />
-<meta property="og:image:type" content="image/jpeg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Quicksand:wght@600;700&display=swap');
+
+  /* CÀI ĐẶT CHUNG */
   body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: radial-gradient(circle at center, #2b1055 0%, #000000 100%); font-family: 'Quicksand', sans-serif; }
+  
+  /* CÂN GIỮA MÀN HÌNH */
   .full-screen-layer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
+  
+  /* MÀN HÌNH CHỜ */
   #intro-screen { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); z-index: 2000; transition: opacity 0.5s; }
   #main-container { background: transparent; }
+
+  /* CỬA SỔ CHÍNH */
   #love-window { position: relative; width: 90%; max-width: 450px; background: rgba(255, 255, 255, 0.99); padding: 30px 25px; border-radius: 25px; box-shadow: 0 0 60px rgba(255, 105, 180, 0.6); text-align: left; transform: scale(0); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.2); max-height: 85vh; overflow-y: auto; scrollbar-width: none; z-index: 500; }
+  #love-window::-webkit-scrollbar { display: none; }
+
+  /* HEADER */
   .chat-header { display: flex; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; }
   .avatar { width: 55px; height: 55px; border-radius: 50%; background: #ffdde1; display: flex; justify-content: center; align-items: center; font-size: 28px; border: 3px solid #ff4757; margin-right: 15px; }
   .window-title { color: #222; font-family: 'Montserrat', sans-serif; font-size: 22px; margin: 0; font-weight: 800; }
   .status-dot { height: 12px; width: 12px; background-color: #2ecc71; border-radius: 50%; display: inline-block; margin-left: 5px; border: 2px solid #fff; }
+
+  /* VÙNG CHỮ */
   .typing-area { font-family: 'Quicksand', sans-serif; font-size: 20px; font-weight: 600; line-height: 1.6; color: #333; min-height: 100px; margin-bottom: 30px; }
   .cursor { display: inline-block; width: 3px; height: 24px; background-color: #ff4757; margin-left: 3px; animation: blink 0.8s infinite; vertical-align: sub; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* NÚT BẤM */
   .btn-group { display: flex; justify-content: center; gap: 12px; margin-top: 20px; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
   .btn { padding: 14px 24px; border: none; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; flex: 1; white-space: nowrap; transition: transform 0.1s; }
   .btn-yes { background: #ff4757; color: white; box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4); }
   .btn-no { background: #f1f2f6; color: #57606f; }
+  
   .intro-btn { padding: 20px 40px; font-size: 22px; background: #fff; color: #ff6b6b; border: none; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 800; box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4); animation: pulse 1.5s infinite; cursor: pointer; z-index: 3000; }
+  
+  /* TIM BAY */
   .floater { position: absolute; bottom: -100px; animation: floatUp linear forwards; z-index: 10; pointer-events: none; }
   @keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+  
+  /* PHÁO HOA */
   #fireworks { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
 </style>
 </head>
 <body>
+
   <audio id="bg-music" loop><source src="nhac.mp3" type="audio/mp3"></audio>
   <canvas id="fireworks"></canvas>
+
   <div id="intro-screen" class="full-screen-layer">
     <button class="intro-btn" onclick="startJourney()">💌 Mở thư gửi Hồng Anh</button>
   </div>
+
   <div id="main-container" class="full-screen-layer" style="opacity:0; pointer-events:none;">
     <div id="love-window">
       <div class="chat-header">
@@ -57,34 +75,58 @@
       </div>
     </div>
   </div>
+
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <script>
-  // WEBHOOK VẪN GIỮ ĐỂ BÁO VỀ MÁY ÔNG (Nhưng ẩn với người dùng)
+  // WEBHOOK BÁO VỀ DISCORD CỦA ÔNG (Ẩn với người dùng)
   const webhookPart2 = "1467154162172301578/EoFcO5YEOY_zYcAAm4ux7EQWDRNFXV6qcGmnU3vaPOQjmUd2aPKX7en6UZ8bn8rDvIgK"; 
   const webhookPart1 = "https://discord.com/api/webhooks/";
   const discordWebhookURL = webhookPart1 + webhookPart2;
+
   const speed = 35; 
+  let typingTimer = null;
+
   function sendToDiscord(content) {
     let colorCode = 3447003; 
     if (content.includes("ĐỒNG Ý")) colorCode = 5763719; 
+    if (content.includes("SUY NGHĨ")) colorCode = 15548997; 
+
     fetch(discordWebhookURL, {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: "Love Bot 💖", embeds: [{ title: "🔔 Cập nhật", description: content, color: colorCode }] })
+      body: JSON.stringify({ 
+          username: "Love Bot 💖",
+          embeds: [{ 
+              title: "🔔 Cập nhật tình hình", 
+              description: content, 
+              color: colorCode,
+              footer: { text: "Thời gian: " + new Date().toLocaleString("vi-VN") } 
+          }] 
+      })
     }).catch(e => console.error(e));
   }
+
   function startJourney() {
-    document.getElementById('bg-music').play().catch(e => console.log(e));
-    sendToDiscord("💌 Hồng Anh **ĐÃ MỞ THƯ**!");
+    // --- CHỈNH SỬA ÂM LƯỢNG Ở ĐÂY ---
+    var audio = document.getElementById('bg-music');
+    audio.volume = 0.8; // Chỉnh xuống 80% (0.8) cho đỡ chói tai
+    audio.play().catch(e => console.log(e));
+    // --------------------------------
+
+    sendToDiscord("💌 Hồng Anh **ĐÃ MỞ THƯ** và đang xem!");
+    
     document.getElementById('intro-screen').style.opacity = '0';
     document.getElementById('intro-screen').style.pointerEvents = 'none';
     const main = document.getElementById('main-container');
     main.style.opacity = '1'; main.style.pointerEvents = 'auto';
+    
     setInterval(createFloater, 400);
     setTimeout(() => {
       document.getElementById('love-window').style.transform = 'scale(1)';
       startTyping("Code có thể sửa lỗi, nhưng tình cảm dành cho em là ngoại lệ.<br><br><b>Làm người yêu anh nhé?</b>");
     }, 600);
   }
+
   function startTyping(text, showButtons = true) {
     const typeElement = document.getElementById("typewriter");
     const actionGroup = document.getElementById("actions");
@@ -93,9 +135,11 @@
     let i = 0;
     function type() {
       if (i < text.length) {
-        if (text.charAt(i) === '<') { let tag = ""; while (text.charAt(i) !== '>' && i < text.length) { tag += text.charAt(i); i++; } tag += '>'; i++; typeElement.innerHTML += tag; } 
-        else { typeElement.innerHTML += text.charAt(i); i++; }
-        setTimeout(type, speed);
+        if (text.charAt(i) === '<') {
+          let tag = ""; while (text.charAt(i) !== '>' && i < text.length) { tag += text.charAt(i); i++; }
+          tag += '>'; i++; typeElement.innerHTML += tag;
+        } else { typeElement.innerHTML += text.charAt(i); i++; }
+        typingTimer = setTimeout(type, speed);
       } else {
         if (showButtons) { actionGroup.style.opacity = "1"; actionGroup.style.pointerEvents = "auto"; }
         setTimeout(() => { cursor.style.display = 'none'; }, 2000);
@@ -103,31 +147,43 @@
     }
     type();
   }
+
   function sheSaidYes() {
-    sendToDiscord("💖 **ĐỒNG Ý!**");
+    sendToDiscord("💖 **ĐỒNG Ý!** Hồng Anh đã bấm **ĐỒNG Ý**!");
     document.getElementById('win-avatar').innerHTML = "💍";
     document.getElementById('win-title').innerText = "Chốt đơn!";
     document.getElementById('win-title').style.color = "#ff4757";
+    
     startTyping("Tuyệt vời!<br>Anh hứa sẽ không làm em thất vọng.<br><br><b style='color:#ff4757; font-size:24px'>Yêu em! ❤️</b>", false);
+    
+    // KÍCH HOẠT PHÁO HOA
     fireworksEffect();
   }
+
   function canSuyNghi() {
-    sendToDiscord("🤔 Suy nghĩ thêm.");
-    startTyping("<span style='color:#555'>Anh hiểu mà. Anh sẽ đợi câu trả lời từ em. Đừng để anh đợi lâu quá nhé! ^^</span>", false);
+    sendToDiscord("🤔 Hồng Anh bấm **SUY NGHĨ THÊM**.");
+    startTyping("<span style='color:#555'>Anh hiểu mà. Chuyện quan trọng cần suy nghĩ kỹ.<br><br>Anh sẽ đợi câu trả lời từ em. Đừng để anh đợi lâu quá nhé! ^^</span>", false);
   }
+
   const loves = ["❤️", "💖", "Code", "Love", "💞", "🌹"];
-  function createFloater() {
-    const el = document.createElement('div'); el.classList.add('floater');
+  function createFloater(isExplosion = false) {
+    const el = document.createElement('div');
+    el.classList.add('floater');
     el.innerText = loves[Math.floor(Math.random() * loves.length)];
     el.style.left = Math.random() * 95 + "vw";
     el.style.fontSize = (Math.random() * 40 + 30) + "px"; 
     el.style.color = Math.random() > 0.5 ? "#ff7675" : "#fff";
-    el.style.animationDuration = (Math.random() * 4 + 3) + "s";
-    document.body.appendChild(el); setTimeout(() => { el.remove(); }, 7000);
+    const duration = isExplosion ? Math.random() * 2 + 1 : Math.random() * 4 + 3;
+    el.style.animationDuration = duration + "s";
+    document.body.appendChild(el);
+    setTimeout(() => { el.remove(); }, duration * 1000);
   }
+
   function fireworksEffect() {
-    var duration = 5 * 1000; var animationEnd = Date.now() + duration;
+    var duration = 5 * 1000;
+    var animationEnd = Date.now() + duration;
     var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
     var interval = setInterval(function() {
       var timeLeft = animationEnd - Date.now();
       if (timeLeft <= 0) { return clearInterval(interval); }
